@@ -47,9 +47,6 @@ int main(int args, char** argv)
 	ModelLight = glm::mat4();
 	ModelLight = glm::scale(ModelLight, glm::vec3(LIGHT_SIZE*10.0f, LIGHT_SIZE*10.0f, 1.0f));	
 	ModelLight = glm::translate(ModelLight, lightPosition);
-
-	glm::mat4 modelSkybox;
-	//modelSkybox = glm::scale(modelSkybox, glm::vec3(5.0f, 5.f, 5.0f));
 	
 	// Load Shader for Environment mapping
 	Shader cubemapShader("./res/cubemap.vs", "./res/cubemap.fs");
@@ -69,7 +66,8 @@ int main(int args, char** argv)
 	lastTime = SDL_GetTicks();
 	
 	// Render:
-    while (!display.isClosed()) {
+    while (!display.isClosed())
+	{
 		numFrames++;
         glFinish();
         handleKeys();
@@ -93,13 +91,8 @@ int main(int args, char** argv)
 		cubemapShader.setMat4("u_projection", projection);
 		cubemapShader.setMat4("u_view", view);
 		cubemapShader.setMat4("u_model", modelScene);
-    	// cubes
 		scene.Draw(cubemapShader);
-		/*glBindVertexArray(cubeVAO);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);//*/
+
 		cubemapShader.disable();
 
     	// Draw Sky box

@@ -8,7 +8,7 @@
 #define QUERY_BUFFERS 2
 #define QUERY_COUNT 1
 
-Display display(WIDTH, HEIGHT, "Deferred Shading");
+Display display(WIDTH, HEIGHT, "Environment Mapping");
 
 GLuint queryID_VIR[QUERY_BUFFERS][QUERY_COUNT];
 int queryBackBuffer = 0, queryFrontBuffer = 1;
