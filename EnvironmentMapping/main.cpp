@@ -42,6 +42,14 @@ int main(int args, char** argv)
 	modelScene = glm::translate(modelScene, glm::vec3(0.50f, -.800f, 2.0f));
 	runtime = true; avgNumFrames = int(glm::radians(360.0f) * 20); csv = true;  dTheta = 0;
 
+	glm::mat4 modelSphere;
+	Model sphere("./res/models/sphere/sphere.obj");
+	glm::vec3 renderPosition = sphere.GetCenter(); std::cout << renderPosition.x << ", " << renderPosition.y << ", " << renderPosition.z << std::endl;
+	modelSphere = glm::mat4();
+	modelSphere = glm::translate(modelSphere, glm::vec3(0.0));
+	renderPosition = glm::vec3(modelSphere * glm::vec4(renderPosition, 1.0));
+	//printVec("renderPosition: ", renderPosition);
+	
 	glm::mat4 ModelLight;
 	Model light("./res/models/square/square.obj");
 	ModelLight = glm::mat4();
@@ -51,11 +59,14 @@ int main(int args, char** argv)
 	// Load Shader for Environment mapping
 	Shader cubemapShader("./res/cubemap.vs", "./res/cubemap.fs");
 	cubemapShader.use();
+	cubemapShader.setInt("skybox", 0);
+	cubemapShader.setInt("skybox2", 1);
 	cubemapShader.disable();
 
 	Shader skyboxShader("./res/skybox.vs", "./res/skybox.fs");
 	skyboxShader.use();
 	skyboxShader.setInt("skybox", 0);
+	skyboxShader.setInt("skybox2", 1);
 	skyboxShader.disable();
 
 	initRendering();
@@ -87,11 +98,15 @@ int main(int args, char** argv)
 		// 1. REnder the scene as normal
 		glViewport(0, 0, WIDTH, HEIGHT);
 		cubemapShader.use();
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+    	glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture_temp);
 		cubemapShader.setVec3("cameraPos", cameraPosition);
 		cubemapShader.setMat4("u_projection", projection);
 		cubemapShader.setMat4("u_view", view);
-		cubemapShader.setMat4("u_model", modelScene);
-		scene.Draw(cubemapShader);
+		cubemapShader.setMat4("u_model", modelSphere);
+		sphere.Draw(cubemapShader);
 
 		cubemapShader.disable();
 
@@ -105,6 +120,8 @@ int main(int args, char** argv)
 		glBindVertexArray(skyboxVAO);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+    	glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture_temp);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		skyboxShader.disable();
@@ -141,9 +158,10 @@ int main(int args, char** argv)
 
 void initRendering()
 {
-	initCube();
+	//initCube();
 	initSkyBox();
 	cubemapTexture = loadCubeMap(faces);
+	cubemapTexture_temp = loadCubeMap(faces_temp);
 }	
 
 
@@ -182,7 +200,6 @@ GLuint loadCubeMap(std::vector<std::string> faces)
 	for(unsigned int i = 0; i < faces.size(); i++)
 	{
 		unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrComponents, 0);
-		
 		std::cout << faces[i] << ": " << width << ", " << height << std::endl;
 		if(data)
 		{

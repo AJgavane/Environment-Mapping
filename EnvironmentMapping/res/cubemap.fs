@@ -5,6 +5,7 @@ in vec3 Position;
 
 uniform vec3 cameraPos;
 uniform samplerCube skybox;
+uniform samplerCube skybox2;
 
 out vec4 FragColor;
 
