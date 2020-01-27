@@ -99,15 +99,14 @@ int main(int args, char** argv)
 		glViewport(0, 0, WIDTH, HEIGHT);
 		cubemapShader.use();
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-    	glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture_temp);
+    	glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 		cubemapShader.setVec3("cameraPos", cameraPosition);
 		cubemapShader.setMat4("u_projection", projection);
 		cubemapShader.setMat4("u_view", view);
 		cubemapShader.setMat4("u_model", modelSphere);
 		sphere.Draw(cubemapShader);
-
 		cubemapShader.disable();
 
     	// Draw Sky box
@@ -117,11 +116,11 @@ int main(int args, char** argv)
 		skyboxShader.setMat4("u_view", skyboxView);
 		skyboxShader.setMat4("u_projection", projection);
 		  	// skybox cube
-		glBindVertexArray(skyboxVAO);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-    	glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture_temp);
+		glBindVertexArray(skyboxVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		skyboxShader.disable();
@@ -144,14 +143,6 @@ int main(int args, char** argv)
         display.Update();        
     }
 
-	// Free the buffers
-	glDeleteFramebuffers(1, &m_shadowMapFBO);
-	glDeleteTextures(1, &depthTexture);
-	for(int i = 0; i < NumTextureUnits; i++)
-	{
-		glDeleteTextures(1, &m_textures[i]);
-		glDeleteTextures(1, &m_samplers[i]);
-	}
     return 0;
 }
 
