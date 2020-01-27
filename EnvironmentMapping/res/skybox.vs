@@ -13,6 +13,6 @@ out vec3 TexCoords;
 void main()
 {
     TexCoords = position;
-    vec4 pos = u_projection * u_view * vec4(position, 1.0);
+    vec4 pos = u_projection * u_view * u_model * vec4(position, 1.0);
     gl_Position = pos.xyww;
 }  

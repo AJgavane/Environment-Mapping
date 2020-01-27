@@ -1,7 +1,7 @@
 #pragma once
 
-#define WIDTH 1280	
-#define HEIGHT 720
+#define WIDTH 1024	
+#define HEIGHT 1024
 #define SHADOW_WIDTH 1024
 #define SHADOW_HEIGHT 1024
 #define HEIGHT_BY_2 512
@@ -18,8 +18,8 @@ GLuint queryID_lightPass[QUERY_BUFFERS][QUERY_COUNT];
 bool printCameraCoord = true;
 const glm::vec3 cameraDefaultPosition(5.0f, 6.0f, 8.0f);
 const glm::vec3 lookAtDefault(0.0f, 0.0f, 0.0f);
-glm::vec3 cameraPosition(0.290603, 0.70916, -0.306382);
-glm::vec3 lookAt(1.89082, -4.52584, 6.43899);
+glm::vec3 cameraPosition(1.82478, 2.18974, 2.91965);
+glm::vec3 lookAt(-7.02756, -4.75577, -4.31796);
 glm::vec3 Up(0.0f, 1.0f, 0.0f);
 glm::vec3 front = glm::normalize(cameraPosition - lookAt);
 glm::vec3 side = glm::normalize(cameraPosition - lookAt);
@@ -72,9 +72,22 @@ GLuint m_samplers[NumTextureUnits];
 GLuint m_textures[NumTextureUnits];
 
 /*************************************/
+GLuint cubemap, dyn_fbo, dyn_db;
+enum
+{
+	POSITIVE_X = 0,
+	NEGATIVE_X = 1,
+	POSITIVE_Y = 2,
+	NEGATIVE_Y = 3,
+	POSITIVE_Z = 4,
+	NEGATIVE_Z = 5
+};
 GLuint cubemapTexture;
 GLuint cubeVAO, cubeVBO;
 GLuint skyboxVAO, skyboxVBO;
+GLuint fbo;
+GLuint depthBuffer;
+
 float cubeVertices[] = {
 	// positions          // normals
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
