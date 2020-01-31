@@ -13,9 +13,6 @@ uniform sampler2D texture_diffuse1;
 
 void main()
 {
-	 vec3 I = normalize(Position - cameraPos);
-    vec3 R = reflect(I, normalize(Normal));
     // color = vec4(texture(skybox, R).rgb, 1.0);
-
-	color =  vec4(1.0, 0.0, 0.0, 1.0);//texture(texture_diffuse1, TexCoords);
+	color =  vec4(Position, 1.0);//texture(texture_diffuse1, TexCoords);
 }

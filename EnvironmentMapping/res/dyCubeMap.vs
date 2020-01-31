@@ -16,6 +16,9 @@ void main()
 {
 	Normal =  normalize(transpose(inverse(mat3(u_model))) * normal);
     Position = vec3(u_model * vec4(position, 1.0));
-    gl_Position = u_projection * u_view * u_model * vec4(Position, 1.0);
     TexCoords = texCoord;
+    vec4 pos = u_projection * u_view * u_model * vec4(Position, 1.0);
+    // pos.w = 1.0;
+    // pos.z = 1.0;
+    gl_Position = pos;
 }

@@ -74,7 +74,16 @@ GLuint m_textures[NumTextureUnits];
 /*************************************/
 GLuint cubemapTexture;
 GLuint cubemapTexture_temp;
-GLuint fbo; GLuint depthBuffer;
+GLuint cm_fbo; GLuint cm_depthBuffer;
+enum
+{
+	POSITIVE_X = 0,
+	NEGATIVE_X = 1,
+	POSITIVE_Y = 2,
+	NEGATIVE_Y = 3,
+	POSITIVE_Z = 4,
+	NEGATIVE_Z = 5
+};
 GLuint cubeVAO, cubeVBO;
 GLuint skyboxVAO, skyboxVBO;
 float cubeVertices[] = {
@@ -180,8 +189,8 @@ std::vector<std::string> faces_temp
 {
 	std::string("./res/skybox/+x.jpg"),
 	std::string("./res/skybox/-x.jpg"),
-	std::string("./res/skybox/-y.jpg"),
 	std::string("./res/skybox/+y.jpg"),
-	std::string("./res/skybox/+z.jpg"),
+	std::string("./res/skybox/-y.jpg"),
 	std::string("./res/skybox/-z.jpg"),
+	std::string("./res/skybox/+z.jpg"),
 };

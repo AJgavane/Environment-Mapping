@@ -12,9 +12,11 @@ uniform mat4 u_projection;
 
 out vec3 Normal;
 out vec3 Position;
+out vec2 TexCoords;
 
 void main()
 {
+	TexCoords = texCoord;
 	Normal =  normalize(transpose(inverse(mat3(u_model))) * normal);
     Position = vec3(u_model * vec4(position, 1.0));
     gl_Position = u_projection * u_view * u_model * vec4(Position, 1.0);

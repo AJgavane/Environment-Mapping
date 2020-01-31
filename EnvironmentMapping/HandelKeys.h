@@ -64,16 +64,16 @@ void handleKeys() {
 				//depthMapToggle = !depthMapToggle;
 				break;
 			case SDLK_i:
-				lookAt = lookAt + glm::vec3(0, 0, dt);
+				lookAt = lookAt + glm::vec3(0, -0.5, 0);
 				break;
 			case SDLK_k:
-				lookAt = lookAt + glm::vec3(0, 0, -dt);
+				lookAt = lookAt + glm::vec3(0, 0.5, 0);
 				break;
 			case SDLK_j:
-				lookAt = lookAt + glm::vec3(dt, 0, 0);
+				lookAt = lookAt + glm::vec3(0.5, 0, 0);
 				break;
 			case SDLK_l:
-				lookAt = lookAt + glm::vec3(-dt, 0, 0);
+				lookAt = lookAt + glm::vec3(-0.5, 0, 0);
 				break;
 			case SDLK_o:
 				lightPosition = lightPosition + glm::vec3(0.0, dt, 0.0);
